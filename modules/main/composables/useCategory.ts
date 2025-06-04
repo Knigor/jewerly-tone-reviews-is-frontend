@@ -5,7 +5,9 @@ export const useCategory = () => {
 
   const getCategories = async () => {
     try {
-      const response = await $protectedApi('categories', { method: 'GET' })
+      const response = await $protectedApi('products/categories', {
+        method: 'GET'
+      })
       return response
     } catch (error) {
       console.error('Ошибка при получении категорий:', error)

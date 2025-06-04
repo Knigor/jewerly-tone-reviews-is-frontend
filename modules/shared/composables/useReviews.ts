@@ -8,6 +8,7 @@ export const useReviews = () => {
       const response = await $protectedApi(`reviews/product/${productId}`, {
         method: 'GET'
       })
+      console.log(response)
       return response
     } catch (error) {
       console.error('Ошибка при получении отзывов:', error)
@@ -32,9 +33,14 @@ export const useReviews = () => {
     text: string
   ) => {
     try {
-      const response = await $protectedApi(`reviews/`, {
+      const response = await $protectedApi(`reviews`, {
         method: 'POST',
-        body: { product_id, user_id, rating, text }
+        body: {
+          productId: product_id,
+          textReview: text,
+          rating,
+          userId: user_id
+        }
       })
       return response
     } catch (error) {

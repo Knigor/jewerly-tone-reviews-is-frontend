@@ -88,7 +88,7 @@
 
         <!-- Иконка заказов -->
 
-        <div
+        <!-- <div
           v-if="userRole === 'ROLE_ADMIN'"
           class="tooltip tooltip-primary hover:tooltip-open tooltip-bottom"
           data-tip="Заказы"
@@ -102,7 +102,7 @@
               <ArrowRightLeft />
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Иконка админа -->
         <div

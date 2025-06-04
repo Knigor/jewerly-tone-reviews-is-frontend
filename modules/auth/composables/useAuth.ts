@@ -25,7 +25,7 @@ export const useAuth = () => {
     try {
       const { access_token, user } = await $publicApi('register', {
         method: 'POST',
-        body: { email: email, nameUser: name, password }
+        body: { email: email, fullName: name, password, username: email }
       })
       authStore.setAccessToken(access_token)
       authStore.setAccessUser(user)

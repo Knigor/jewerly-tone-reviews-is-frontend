@@ -57,7 +57,26 @@
                     class="input input-primary mt-2 border"
                   />
                 </div>
-
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700">
+                    Размеры (можно выбрать несколько)
+                  </label>
+                  <div class="grid grid-cols-4 gap-2">
+                    <label
+                      v-for="size in [14, 15, 16, 17, 18, 19, 20]"
+                      :key="size"
+                      class="flex items-center gap-2"
+                    >
+                      <input
+                        v-model="sizeProduct"
+                        type="checkbox"
+                        :value="size"
+                        class="checkbox checkbox-primary border-1"
+                      />
+                      {{ size }}
+                    </label>
+                  </div>
+                </div>
                 <!-- Категория из селекта -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700">
@@ -72,7 +91,7 @@
                       :key="category.id"
                       :value="category.id"
                     >
-                      {{ category.name }}
+                      {{ category.nameCategory }}
                     </option>
                   </select>
                 </div>
@@ -103,36 +122,12 @@
 
                 <div>
                   <label class="block text-sm font-medium text-gray-700">
-                    Тип продукта
+                    Описание метала
                   </label>
                   <input
-                    v-model="typeProducts"
+                    v-model="metal"
                     type="text"
-                    placeholder="Охлажденная"
-                    class="input input-primary mt-2 border"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700">
-                    Вес продукта
-                  </label>
-                  <input
-                    v-model="productWeight"
-                    type="text"
-                    placeholder="50 г"
-                    class="input input-primary mt-2 border"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700">
-                    Кол-во товара на складе
-                  </label>
-                  <input
-                    v-model="quantityProduct"
-                    type="text"
-                    placeholder="23"
+                    placeholder="Платина"
                     class="input input-primary mt-2 border"
                   />
                 </div>
@@ -186,11 +181,10 @@ const props = defineProps<{
 const nameProduct = ref(props.product.nameProduct)
 const descriptionProduct = ref(props.product.descriptionProduct)
 const priceProduct = ref(props.product.priceProduct)
-const typeProducts = ref(props.product.typeProducts)
-const productWeight = ref(props.product.productWeight)
-const quantityProduct = ref(props.product.quantityProduct)
-const imageUrl = ref(props.product.imageUrlProduct)
-const selectedCategory = ref(props.product.categoryId)
+const metal = ref(props.product.metal)
+const imageUrl = ref(props.product.imgUrlProduct)
+const selectedCategory = ref(props.product.category.id)
+const sizeProduct = ref<number[]>([...props.product.sizeProduct])
 
 watch(
   () => props.product,
@@ -198,11 +192,10 @@ watch(
     nameProduct.value = newProduct.nameProduct
     descriptionProduct.value = newProduct.descriptionProduct
     priceProduct.value = newProduct.priceProduct
-    typeProducts.value = newProduct.typeProducts
-    productWeight.value = newProduct.productWeight
-    quantityProduct.value = newProduct.quantityProduct
-    imageUrl.value = newProduct.imageUrlProduct
-    selectedCategory.value = newProduct.categoryId
+    imageUrl.value = newProduct.imgUrlProduct
+    selectedCategory.value = newProduct.category.id
+    sizeProduct.value = [...newProduct.sizeProduct]
+    metal.value = newProduct.metal
   }
 )
 
@@ -211,14 +204,13 @@ const emit = defineEmits<{
   (
     e: 'addedProduct',
     productData: {
-      nameProduct: string
-      descriptionProduct: string
-      priceProduct: number
-      typeProducts: string
-      productWeight: string
-      quantityProduct: number
-      imageUrl: string
-      categoryId: number
+      name: string
+      description: string
+      price: number
+      img_url: string
+      category_id: number
+      sizeProduct: number[]
+      metal: string
     },
     id: number
   ): void
@@ -228,14 +220,13 @@ function addedProduct() {
   emit(
     'addedProduct',
     {
-      nameProduct: nameProduct.value,
-      descriptionProduct: descriptionProduct.value,
-      priceProduct: Number(priceProduct.value),
-      typeProducts: typeProducts.value,
-      productWeight: productWeight.value,
-      quantityProduct: Number(quantityProduct.value),
-      imageUrl: imageUrl.value,
-      categoryId: Number(selectedCategory.value)
+      name: nameProduct.value,
+      description: descriptionProduct.value,
+      price: Number(priceProduct.value),
+      img_url: imageUrl.value,
+      category_id: Number(selectedCategory.value),
+      sizeProduct: sizeProduct.value,
+      metal: metal.value
     },
     props.product.id
   )

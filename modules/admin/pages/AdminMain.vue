@@ -19,8 +19,8 @@
         @change="handleSort(selectedSort)"
       >
         <option value="DEFAULT">Порядок: по умолчанию</option>
-        <option value="price_asc">Цена: По возрастанию</option>
-        <option value="price_desc">Цена: По убыванию</option>
+        <option value="asc">Цена: По возрастанию</option>
+        <option value="desc">Цена: По убыванию</option>
       </select>
     </div>
 
@@ -173,17 +173,40 @@ async function openUpdateModal(card: Product) {
 }
 
 async function handleDeleteProduct(id: number) {
-  await Promise.all([deleteProduct(id), fetchInitialData()])
+  try {
+    await deleteProduct(id)
+    await fetchInitialData()
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
+  }
+
   isOpenDelete.value = false
 }
 
 async function handleUpdateProduct(productData: AddedProduct, id: number) {
-  await Promise.all([updateProduct(productData, id), fetchInitialData()])
+  try {
+    await updateProduct(productData, id)
+    await fetchInitialData()
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
+  }
+
   isOpenUpdate.value = false
 }
 
 async function handleAddedProduct(productData: AddedProduct) {
-  await Promise.all([addedProduct(productData), fetchInitialData()])
+  try {
+    await addedProduct(productData)
+    await fetchInitialData()
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
+  }
   isOpenAdded.value = false
 }
 

@@ -1,18 +1,21 @@
 export interface Category {
   id: number
-  name: string
+  nameCategory: string
+  descriptionCategory: string
 }
 
 export interface Product {
   id: number
   nameProduct: string
   descriptionProduct: string
-  imageUrlProduct: string
+  imgUrlProduct: string
   priceProduct: number
-  productWeight: string
-  quantityProduct: number
-  typeProducts: string
-  categoryId: number
+  metal: string
+  sizeProduct: number[]
+  category: {
+    id: number
+    nameCategory: string
+  }
 }
 
 export interface AddedProduct {
@@ -28,18 +31,16 @@ export interface AddedProduct {
 
 export interface Review {
   id: number
-  product_id: number
-  product_name: string
+  createdAt: string
+  moderated: boolean
+  numberTone: number
+  rating: number
+  textReview: string
   user: {
     id: number
-    name: string
+    fullName: string
     email: string
   }
-  rating: number
-  text: string
-  created_at: string
-  is_moderate: boolean
-  moderation_status: string
 }
 
 export interface OrderItems {

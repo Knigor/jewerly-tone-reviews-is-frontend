@@ -27,11 +27,11 @@
         :key="category.id"
         class="btn"
         :class="{
-          'btn-primary text-white': selectedCategory === category.name
+          'btn-primary text-white': selectedCategory === category.nameCategory
         }"
         @click="handleCategoryFilter(category)"
       >
-        {{ category.name }}
+        {{ category.nameCategory }}
       </button>
       <button
         v-if="selectedCategory !== ''"
@@ -58,8 +58,8 @@
         @change="handleSort(selectedSort)"
       >
         <option value="DEFAULT">Порядок: по умолчанию</option>
-        <option value="price_asc">Цена: По возрастанию</option>
-        <option value="price_desc">Цена: По убыванию</option>
+        <option value="asc">Цена: По возрастанию</option>
+        <option value="desc">Цена: По убыванию</option>
       </select>
     </div>
 

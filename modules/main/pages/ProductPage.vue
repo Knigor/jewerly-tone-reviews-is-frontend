@@ -10,7 +10,7 @@
     </div>
 
     <div
-      class="scrollbar-thumb-gray-600 scrollbar-thin scrollbar-track-gray-300 flex h-[600px] flex-col items-start overflow-auto"
+      class="scrollbar-thumb-gray-600 scrollbar-thin scrollbar-track-gray-300 flex h-[600px] w-[900px] flex-col items-start overflow-auto"
     >
       <!-- Отзывы покупателей-->
       <p class="text-2xl">Отзывы покупателей</p>
@@ -67,11 +67,9 @@ const { getReviews } = useReviews()
 const route = useRoute()
 const product = ref<Product>()
 const review = ref<Review[]>()
-const totalReviews = ref<number>()
-const averageRating = ref<number>()
+// const totalReviews = ref<number>()
+// const averageRating = ref<number>()
 const isLoadingProduct = ref(false)
-
-console.log(route.params.id)
 
 onMounted(async () => {
   isLoadingProduct.value = true
@@ -81,9 +79,7 @@ onMounted(async () => {
       getReviews(Number(route.params.id))
     ]).then(([prod, rev]) => {
       product.value = prod
-      review.value = rev.reviews
-      totalReviews.value = rev.total_reviews
-      averageRating.value = rev.average_rating
+      review.value = rev
     })
   } catch (error) {
     console.error(error)

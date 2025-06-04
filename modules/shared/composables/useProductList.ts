@@ -44,7 +44,7 @@ export const useProductList = () => {
   }
 
   const handleCategoryFilter = async (category: Category) => {
-    selectedCategory.value = category.name
+    selectedCategory.value = category.nameCategory
     isLoadingProducts.value = true
     searchProducts.value = ''
     try {

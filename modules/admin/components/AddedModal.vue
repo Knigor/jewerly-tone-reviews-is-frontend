@@ -58,6 +58,26 @@
                   />
                 </div>
 
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-gray-700">
+                    Размеры (можно выбрать несколько)
+                  </label>
+                  <div class="grid grid-cols-4 gap-2">
+                    <label
+                      v-for="size in [14, 15, 16, 17, 18, 19, 20]"
+                      :key="size"
+                      class="flex items-center gap-2"
+                    >
+                      <input
+                        v-model.number="sizeProduct"
+                        type="checkbox"
+                        :value="size"
+                        class="checkbox checkbox-primary border-1"
+                      />
+                      {{ size }}
+                    </label>
+                  </div>
+                </div>
                 <!-- Категория из селекта -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700">
@@ -72,7 +92,7 @@
                       :key="category.id"
                       :value="category.id"
                     >
-                      {{ category.name }}
+                      {{ category.nameCategory }}
                     </option>
                   </select>
                 </div>
@@ -103,36 +123,12 @@
 
                 <div>
                   <label class="block text-sm font-medium text-gray-700">
-                    Тип продукта
+                    Описание метала
                   </label>
                   <input
-                    v-model="typeProducts"
+                    v-model="metal"
                     type="text"
-                    placeholder="Охлажденная"
-                    class="input input-primary mt-2 border"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700">
-                    Вес продукта
-                  </label>
-                  <input
-                    v-model="productWeight"
-                    type="text"
-                    placeholder="50 г"
-                    class="input input-primary mt-2 border"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700">
-                    Кол-во товара на складе
-                  </label>
-                  <input
-                    v-model="quantityProduct"
-                    type="text"
-                    placeholder="23"
+                    placeholder="Платина"
                     class="input input-primary mt-2 border"
                   />
                 </div>
@@ -185,39 +181,36 @@ defineProps<{
 const nameProduct = ref('')
 const descriptionProduct = ref('')
 const priceProduct = ref()
-const typeProducts = ref('')
-const productWeight = ref('100 г')
-const quantityProduct = ref()
+const metal = ref('')
 const imageUrl = ref('')
 const selectedCategory = ref(1)
+const sizeProduct = ref<number[]>([])
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
   (
     e: 'addedProduct',
     productData: {
-      nameProduct: string
-      descriptionProduct: string
-      priceProduct: number
-      typeProducts: string
-      productWeight: string
-      quantityProduct: number
-      imageUrl: string
-      categoryId: number
+      name: string
+      description: string
+      price: number
+      img_url: string
+      category_id: number
+      size: number[]
+      metal: string
     }
   ): void
 }>()
 
 function addedProduct() {
   emit('addedProduct', {
-    nameProduct: nameProduct.value,
-    descriptionProduct: descriptionProduct.value,
-    priceProduct: Number(priceProduct.value),
-    typeProducts: typeProducts.value,
-    productWeight: productWeight.value,
-    quantityProduct: Number(quantityProduct.value),
-    imageUrl: imageUrl.value,
-    categoryId: Number(selectedCategory.value)
+    name: nameProduct.value,
+    description: descriptionProduct.value,
+    price: Number(priceProduct.value),
+    img_url: imageUrl.value,
+    category_id: Number(selectedCategory.value),
+    size: sizeProduct.value.map(Number),
+    metal: metal.value
   })
 }
 

@@ -11,7 +11,7 @@
         </div>
         <div class="font-medium dark:text-white">
           <p>
-            {{ review.user.name }}
+            {{ review.user.fullName }}
             <span class="block text-sm text-gray-500 dark:text-gray-400">{{
               review.user.email
             }}</span>
@@ -19,6 +19,19 @@
         </div>
       </div>
     </div>
+    <div
+      :class="[
+        review.numberTone === 1 ? 'badge-accent' : '',
+        review.numberTone === 0 ? 'badge-neutral' : '',
+        review.numberTone === -1 ? 'badge-error' : ''
+      ]"
+      class="badge badge-soft badge-xl my-2"
+    >
+      <span v-if="review.numberTone === 1" class="p-4">Положительный</span>
+      <span v-if="review.numberTone === 0" class="p-4">Нейтральный</span>
+      <span v-if="review.numberTone === -1" class="p-4">Отрицательный</span>
+    </div>
+
     <div class="mb-1 flex items-center space-x-1 rtl:space-x-reverse">
       <!-- Звёздочки сюда -->
       <div class="rating">
@@ -43,8 +56,9 @@
         }}</time>
       </p>
     </footer>
+
     <p class="mb-2 text-gray-500 dark:text-gray-400">
-      {{ review.text }}
+      {{ review.textReview }}
     </p>
     <hr />
     <aside></aside>
@@ -62,7 +76,7 @@ const props = defineProps<{
 const uniqId = ref(Math.random())
 
 const formatedDate = computed(() => {
-  const date = new Date(props.review.created_at)
+  const date = new Date(props.review.createdAt)
   return date.toLocaleDateString('ru-RU', {
     year: 'numeric',
     month: 'long',

@@ -29,12 +29,9 @@ export const useProducts = () => {
     categoryId: number
   ): Promise<Product[]> => {
     try {
-      const response = await $protectedApi(
-        `productsCategory/?category_id=${categoryId}`,
-        {
-          method: 'GET'
-        }
-      )
+      const response = await $protectedApi(`products?category=${categoryId}`, {
+        method: 'GET'
+      })
       return response
     } catch (error) {
       console.error('Ошибка при получении продуктов:', error)
@@ -44,7 +41,7 @@ export const useProducts = () => {
 
   const getProductsSort = async (sort: string): Promise<Product[]> => {
     try {
-      const response = await $protectedApi(`products?sort=${sort}`, {
+      const response = await $protectedApi(`products?order=${sort}`, {
         method: 'GET'
       })
       return response
@@ -66,7 +63,7 @@ export const useProducts = () => {
   }
 
   const addedProduct = async (product: AddedProduct) => {
-    Object.assign(product, { userId: authStore.user?.id })
+    Object.assign(product, { user_id: authStore.user?.id })
 
     try {
       const response = await $protectedApi('products', {
@@ -80,6 +77,8 @@ export const useProducts = () => {
   }
 
   const updateProduct = async (product: AddedProduct, id: number) => {
+    Object.assign(product, { userId: authStore.user?.id })
+
     try {
       const response = await $protectedApi(`products/${id}`, {
         method: 'PUT',

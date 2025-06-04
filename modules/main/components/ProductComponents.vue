@@ -12,16 +12,11 @@
             {{ new Intl.NumberFormat('ru-RU').format(product.priceProduct) }}р
           </div>
 
-          <p>
-            Цена за
-            <span class="text-gray-600">{{ product.productWeight }}</span>
-          </p>
-
           <div class="flex gap-2 py-2">
-            <ControllButtons @update:quantity="handleQuantity" />
+            <!-- <ControllButtons @update:quantity="handleQuantity" />
             <button class="btn btn-primary" @click="handleAddedCart(product)">
               Добавить в корзину
-            </button>
+            </button> -->
             <button class="btn btn-info" @click="handleOpenReview">
               Оставить отзыв
             </button>
@@ -35,8 +30,31 @@
             @close-modal="isOpen = false"
           />
 
-          <p>Тип: {{ product.typeProducts }}</p>
-          <p class="py-6 text-gray-600">
+          <p>Размеры</p>
+          <div class="flex max-w-[900px] grid-cols-2 flex-wrap gap-2 filter">
+            <button
+              v-for="item in product.sizeProduct"
+              :key="item"
+              :disabled="selectedSize !== item"
+              class="btn"
+              :class="{
+                'btn-primary text-white': selectedSize === item
+              }"
+              @click="handleSize(item)"
+            >
+              {{ item }}
+            </button>
+            <button
+              v-if="selectedSize !== null"
+              class="btn btn-square btn-ghost"
+              @click="handleResetSize"
+            >
+              <X stroke-width="1" />
+            </button>
+          </div>
+
+          <p class="text-xl">Описание</p>
+          <p class="py-2 text-gray-600">
             {{ product.descriptionProduct }}
           </p>
         </div>
@@ -52,6 +70,7 @@ import type { Product } from '~/modules/shared/types/type'
 import { useReviews } from '~/modules/shared/composables/useReviews'
 import { useAuthStore } from '~/modules/auth/store/authStore'
 import { useCartStore } from '~/modules/shared/store/cartStore'
+import { X } from 'lucide-vue-next'
 
 defineProps<{
   product: Product
@@ -63,6 +82,8 @@ const { addedReview } = useReviews()
 const isOpen = ref(false)
 const route = useRoute()
 const authStore = useAuthStore()
+
+const selectedSize = ref(null)
 
 const currentQuantity = ref(1)
 
@@ -85,6 +106,14 @@ const handleAddedCart = (product: Product) => {
 
 const handleQuantity = (quantity: number) => {
   currentQuantity.value = quantity
+}
+
+const handleSize = (size: number) => {
+  selectedSize.value = size
+}
+
+const handleResetSize = () => {
+  selectedSize.value = null
 }
 
 const handleAddedReview = async (rating: number, text: string) => {
