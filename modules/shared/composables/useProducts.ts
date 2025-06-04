@@ -77,7 +77,7 @@ export const useProducts = () => {
   }
 
   const updateProduct = async (product: AddedProduct, id: number) => {
-    Object.assign(product, { userId: authStore.user?.id })
+    Object.assign(product, { user_id: authStore.user?.id })
 
     try {
       const response = await $protectedApi(`products/${id}`, {

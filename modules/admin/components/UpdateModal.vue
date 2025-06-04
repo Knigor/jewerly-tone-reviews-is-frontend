@@ -209,7 +209,7 @@ const emit = defineEmits<{
       price: number
       img_url: string
       category_id: number
-      sizeProduct: number[]
+      size: number[]
       metal: string
     },
     id: number
@@ -225,7 +225,7 @@ function addedProduct() {
       price: Number(priceProduct.value),
       img_url: imageUrl.value,
       category_id: Number(selectedCategory.value),
-      sizeProduct: sizeProduct.value,
+      size: sizeProduct.value,
       metal: metal.value
     },
     props.product.id

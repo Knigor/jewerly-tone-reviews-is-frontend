@@ -93,7 +93,7 @@ const handleSort = async (sort: string) => {
     isLoadingProduct.value = true
     try {
       review.value = allReview.value?.filter((item) => {
-        return item.is_moderate === true
+        return item.moderated === true
       })
     } catch (error) {
       console.error(error)
@@ -105,7 +105,7 @@ const handleSort = async (sort: string) => {
     isLoadingProduct.value = true
     try {
       review.value = allReview.value?.filter((item) => {
-        return item.is_moderate === false
+        return item.moderated === false
       })
     } catch (error) {
       console.error(error)
@@ -118,10 +118,8 @@ const handleSort = async (sort: string) => {
 const filteredReview = computed(() => {
   return review.value?.filter((item) => {
     return (
-      item.created_at
-        .toLowerCase()
-        .includes(searchReview.value.toLowerCase()) ||
-      item.text.toLowerCase().includes(searchReview.value.toLowerCase())
+      item.createdAt.toLowerCase().includes(searchReview.value.toLowerCase()) ||
+      item.textReview.toLowerCase().includes(searchReview.value.toLowerCase())
     )
   })
 })
@@ -131,7 +129,7 @@ async function successReview(id: number) {
     await moderationReview(id, true)
     const index = review.value?.findIndex((item) => item.id === id)
     if (index !== -1 && review.value) {
-      review.value[index as number].is_moderate = true
+      review.value[index as number].moderated = true
     }
     $toast.success('Отзыв одобрен')
   } catch (error) {

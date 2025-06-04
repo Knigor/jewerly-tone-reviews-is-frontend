@@ -50,7 +50,7 @@ export const useReviews = () => {
 
   const moderationReview = async (review_id: number, is_moderate: boolean) => {
     try {
-      const response = await $protectedApi(`reviews/${review_id}`, {
+      const response = await $protectedApi(`reviews/${review_id}/moderate`, {
         method: 'PUT',
         body: { is_moderate }
       })
