@@ -16,7 +16,7 @@ export const useOrders = () => {
 
   const getOrders = async () => {
     try {
-      const response = await $protectedApi('orders', { method: 'GET' })
+      const response = await $protectedApi('orders/', { method: 'GET' })
       return response
     } catch (error) {
       console.error('Ошибка при получении заказов:', error)

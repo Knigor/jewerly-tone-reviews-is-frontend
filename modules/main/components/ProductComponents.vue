@@ -13,10 +13,10 @@
           </div>
 
           <div class="flex gap-2 py-2">
-            <!-- <ControllButtons @update:quantity="handleQuantity" />
+            <ControllButtons @update:quantity="handleQuantity" />
             <button class="btn btn-primary" @click="handleAddedCart(product)">
               Добавить в корзину
-            </button> -->
+            </button>
             <button class="btn btn-info" @click="handleOpenReview">
               Оставить отзыв
             </button>
@@ -35,7 +35,6 @@
             <button
               v-for="item in product.sizeProduct"
               :key="item"
-              :disabled="selectedSize !== item"
               class="btn"
               :class="{
                 'btn-primary text-white': selectedSize === item

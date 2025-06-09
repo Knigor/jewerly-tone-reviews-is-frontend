@@ -43,8 +43,8 @@
     </div>
 
     <!-- Поиск -->
-    <div class="flex w-full max-w-[900px] justify-end gap-2">
-      <div class="join">
+    <div class="justify flex w-full max-w-[900px] gap-2">
+      <div class="join mt-6 items-center">
         <input
           v-model="searchProducts"
           class="input join-item input-xs border-1"
@@ -54,13 +54,53 @@
       </div>
       <select
         v-model="selectedSort"
-        class="select select-xs border-1"
+        class="select select-xs mt-6 border-1"
         @change="handleSort(selectedSort)"
       >
         <option value="DEFAULT">Порядок: по умолчанию</option>
         <option value="asc">Цена: По возрастанию</option>
         <option value="desc">Цена: По убыванию</option>
       </select>
+
+      <!-- Фильтры по рейтингу и тональности -->
+      <div class="flex w-full max-w-[900px] gap-12">
+        <div class="form-control w-40">
+          <label class="label">
+            <span class="label-text">Минимальный рейтинг</span>
+          </label>
+          <select
+            v-model="minRating"
+            class="select select-bordered select-xs border"
+            @change="handleFilterByRatingAndTone"
+          >
+            <option :value="null">Любой</option>
+            <option v-for="n in 5" :key="n" :value="n">{{ n }}</option>
+          </select>
+        </div>
+
+        <div class="form-control w-40">
+          <label class="label">
+            <span class="label-text">Минимальная тональность</span>
+          </label>
+          <select
+            v-model="minTone"
+            class="select select-bordered select-xs border"
+            @change="handleFilterByRatingAndTone"
+          >
+            <option :value="null">Любая</option>
+            <option :value="-1">Отрицательная</option>
+            <option :value="0">Нейтральная</option>
+            <option :value="1">Положительная</option>
+          </select>
+        </div>
+
+        <button
+          class="btn btn-xs btn-ghost ml-2"
+          @click="resetRatingToneFilters"
+        >
+          Сбросить
+        </button>
+      </div>
     </div>
 
     <!-- Карточки товара -->
@@ -87,6 +127,20 @@
               {{ new Intl.NumberFormat('ru-RU').format(card.priceProduct) }}р
             </div>
           </h2>
+          <div
+            v-if="card.avgRating !== 0"
+            class="flex flex-wrap items-center justify-between"
+          >
+            <strong>Средний рейтинг</strong>
+            <span class="text-orange-600">{{ card.avgRating }}</span>
+          </div>
+          <div
+            v-if="card.avgTone !== 0"
+            class="flex flex-wrap items-center justify-between"
+          >
+            <strong>Средняя тональность</strong>
+            <span class="text-green-600">{{ card.avgTone }}</span>
+          </div>
           <p>
             {{ truncate(card.descriptionProduct) }}
           </p>
@@ -135,16 +189,25 @@ const {
   searchProducts,
   selectedSort,
   filteredProducts,
+  minRating,
+  minTone,
   fetchInitialData,
   handleReset,
   handleCategoryFilter,
   handleSort,
+  handleFilterByRatingAndTone,
   truncate
 } = useProductList()
 
 onMounted(async () => {
   await fetchInitialData()
 })
+
+const resetRatingToneFilters = () => {
+  minRating.value = null
+  minTone.value = null
+  handleFilterByRatingAndTone()
+}
 </script>
 
 <style scoped></style>

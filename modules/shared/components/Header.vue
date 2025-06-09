@@ -61,8 +61,14 @@
         </div>
       </div>
       <!-- Иконки -->
+
       <div class="dropdown dropdown-end flex gap-2">
         <!-- Иконка корзины -->
+
+        <h1 class="flex items-center text-gray-900">
+          {{ authStore.user?.name }}
+        </h1>
+
         <div
           v-if="!cartStore.isEmpty"
           :class="
@@ -88,7 +94,7 @@
 
         <!-- Иконка заказов -->
 
-        <!-- <div
+        <div
           v-if="userRole === 'ROLE_ADMIN'"
           class="tooltip tooltip-primary hover:tooltip-open tooltip-bottom"
           data-tip="Заказы"
@@ -102,7 +108,7 @@
               <ArrowRightLeft />
             </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- Иконка админа -->
         <div
@@ -155,6 +161,7 @@ import {
 import CartModal from './CartModal.vue'
 import { useSearchHeader } from '../composables/useSearchHeader'
 import { useCartStore } from '../store/cartStore'
+import { useAuthStore } from '~/modules/auth/store/authStore'
 
 interface Product {
   id: number
@@ -167,6 +174,7 @@ interface Product {
   typeProducts: string
 }
 
+const authStore = useAuthStore()
 const cartStore = useCartStore()
 const search = ref<string>('')
 const isOpen = defineModel<boolean>('isOpen')

@@ -15,7 +15,28 @@ export const useProducts = () => {
     }
   }
 
-  const getProducts = async (): Promise<Product[]> => {
+  const getProductsByRatingAndTone = async (
+    minRating: number,
+    minTone: number
+  ): Promise<Product[]> => {
+    try {
+      const response = await $protectedApi(
+        `products?min_rating=${minRating}&min_tone=${minTone}`,
+        {
+          method: 'GET'
+        }
+      )
+      return response
+    } catch (error) {
+      console.error(
+        'Ошибка при фильтрации продуктов по рейтингу и тональности:',
+        error
+      )
+      return []
+    }
+  }
+
+  const getProducts = async () => {
     try {
       const response = await $protectedApi('products', { method: 'GET' })
       return response
@@ -97,6 +118,7 @@ export const useProducts = () => {
     getProducts,
     getProductByCategory,
     getProductsSort,
-    deleteProduct
+    deleteProduct,
+    getProductsByRatingAndTone
   }
 }

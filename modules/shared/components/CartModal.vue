@@ -112,12 +112,12 @@
                       authStore.user?.email
                     }}</span>
                   </p>
-                  <p class="text-primary text-[16px]">
+                  <!-- <p class="text-primary text-[16px]">
                     Телефон:
                     <span class="text-gray-500">{{
                       authStore.user?.phone
                     }}</span>
-                  </p>
+                  </p> -->
                 </div>
               </div>
 
@@ -183,7 +183,7 @@ async function handleAddedOrder() {
   if (cartStore.items === null) return
   try {
     const cartStates: CartState[] = [{ items: cartStore.items }]
-    await addedOrder(authStore.user!.id, authStore.user!.phone, cartStates)
+    await addedOrder(authStore.user!.id, authStore.user!.email, cartStates)
     cartStore.clearCart()
     isOpen.value = false
     $toast.success(

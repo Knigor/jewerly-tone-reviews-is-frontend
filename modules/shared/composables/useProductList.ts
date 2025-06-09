@@ -11,7 +11,15 @@ export const useProductList = () => {
   const searchProducts = ref('')
   const selectedSort = ref('DEFAULT')
 
-  const { getProducts, getProductByCategory, getProductsSort } = useProducts()
+  const minRating = ref<number | null>(null)
+  const minTone = ref<number | null>(null)
+
+  const {
+    getProducts,
+    getProductByCategory,
+    getProductsSort,
+    getProductsByRatingAndTone
+  } = useProducts()
   const { getCategories } = useCategory()
 
   const fetchInitialData = async () => {
@@ -19,12 +27,37 @@ export const useProductList = () => {
     try {
       await Promise.all([getCategories(), getProducts()]).then(
         ([category, products]) => {
+          console.log(category, products)
           categories.value = category
           cardsProduct.value = products
         }
       )
     } catch (error) {
       console.error(error)
+    } finally {
+      isLoadingProducts.value = false
+    }
+  }
+
+  const handleFilterByRatingAndTone = async () => {
+    if (minRating.value === null && minTone.value === null) {
+      // Если фильтры не заданы, подгружаем все продукты
+      return handleReset()
+    }
+
+    isLoadingProducts.value = true
+    try {
+      // Если один из фильтров null — можно подставить 0 или игнорировать
+      const rating = minRating.value ?? 0
+      const tone = minTone.value ?? 0
+
+      const response = await getProductsByRatingAndTone(rating, tone)
+      cardsProduct.value = response
+    } catch (error) {
+      console.error(
+        'Ошибка при фильтрации продуктов по рейтингу и тональности:',
+        error
+      )
     } finally {
       isLoadingProducts.value = false
     }
@@ -84,11 +117,11 @@ export const useProductList = () => {
   }
 
   const filteredProducts = computed(() => {
-    return cardsProduct.value.filter((item) => {
-      return item.nameProduct
+    return cardsProduct.value.filter((item) =>
+      item.nameProduct
         .toLowerCase()
         .includes(searchProducts.value.toLowerCase())
-    })
+    )
   })
 
   const truncate = (text: string, length = 50) => {
@@ -104,10 +137,13 @@ export const useProductList = () => {
     searchProducts,
     selectedSort,
     filteredProducts,
+    minRating,
+    minTone,
     fetchInitialData,
     handleReset,
     handleCategoryFilter,
     handleSort,
-    truncate
+    truncate,
+    handleFilterByRatingAndTone
   }
 }

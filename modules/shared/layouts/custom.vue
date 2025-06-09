@@ -2,7 +2,7 @@
   <div class="flex min-h-screen flex-col">
     <Header
       v-model:is-open="isOpen"
-      v-model:user-role="authStore.user!.role"
+      v-model:user-role="userRole"
       @log-out="handleLogOut"
       @open-cart="isOpen = !isOpen"
     />
@@ -27,13 +27,13 @@ const { logOut } = useAuth()
 // открываем и закрываем модалку с корзиной
 const isOpen = ref<boolean>(false)
 
+const userRole = computed(() => authStore.user?.role || '')
+
 const handleLogOut = async () => {
   try {
-    const response = await logOut()
+    await logOut()
 
-    if (response.success) {
-      navigateTo('/')
-    }
+    navigateTo('/authorization')
   } catch (error) {
     console.error(error)
   }

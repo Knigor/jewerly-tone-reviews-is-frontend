@@ -118,7 +118,7 @@
           <p class="text-sm text-gray-600">
             Пользователь: {{ order.userName }} ({{ order.userEmail }})
           </p>
-          <p class="text-sm text-gray-600">Телефон: {{ order.phone }}</p>
+          <!-- <p class="text-sm text-gray-600">Телефон: {{ order.phone }}</p> -->
         </div>
       </div>
 
