@@ -63,10 +63,10 @@
       </select>
 
       <!-- Фильтры по рейтингу и тональности -->
-      <div class="flex w-full max-w-[900px] gap-12">
+      <div class="relative flex w-full max-w-[900px] gap-2">
         <div class="form-control w-40">
           <label class="label">
-            <span class="label-text">Минимальный рейтинг</span>
+            <span class="label-text text-xs">Рейтинг</span>
           </label>
           <select
             v-model="minRating"
@@ -80,7 +80,7 @@
 
         <div class="form-control w-40">
           <label class="label">
-            <span class="label-text">Минимальная тональность</span>
+            <span class="label-text text-xs">Отзывы</span>
           </label>
           <select
             v-model="minTone"
@@ -88,14 +88,14 @@
             @change="handleFilterByRatingAndTone"
           >
             <option :value="null">Любая</option>
-            <option :value="-1">Отрицательная</option>
-            <option :value="0">Нейтральная</option>
-            <option :value="1">Положительная</option>
+            <option :value="-1">Нейтральные</option>
+            <option :value="0">Отрицательные</option>
+            <option :value="1">Положительные</option>
           </select>
         </div>
 
         <button
-          class="btn btn-xs btn-ghost ml-2"
+          class="btn btn-xs relative top-6"
           @click="resetRatingToneFilters"
         >
           Сбросить
